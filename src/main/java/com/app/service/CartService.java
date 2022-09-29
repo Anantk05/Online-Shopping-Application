@@ -1,7 +1,13 @@
 package com.app.service;
 
-public interface CartService {
-	
-	
+import com.app.dto.cart.AddToCartDto;
+import com.app.dto.cart.CartDto;
+import com.app.model.User;
 
+public interface CartService {
+
+
+    void addToCart(AddToCartDto addToCartDto, User user);
+
+    CartDto listCartItems(User user);
 }
