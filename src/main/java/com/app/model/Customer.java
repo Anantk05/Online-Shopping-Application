@@ -1,5 +1,6 @@
 package com.app.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,7 +13,6 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -47,11 +47,27 @@ public class Customer {
 	@Email(message = "Please enter a valid email...")
 	private String email;
 	
-	@NotNull(message = "Address can't be null!")
 	@OneToMany
 	@JoinColumn(name = "customer_id", referencedColumnName = "customerId")
-	private List<Address> address;
+	private List<Address> address = new ArrayList<>();
+
 	
 	
+	public Customer(
+			@Size(min = 3, max = 15, message = "First Name should be min 3 and max 15 Characters!") String firstName,
+			@Size(min = 1, max = 15, message = "Last Name should be min 1 and max 15 Characters!") String lastName,
+			@Min(value = 10, message = "Mobile Number should contain 10 digit only!") @Max(value = 10, message = "Mobile Number should contain 10 digit only!") String mobileNumber,
+			@Pattern(regexp = "^((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[&!@#%$^]){8,16}$", message = "Password must contain atleast 1 uppercase, 1 lowercase, 1 special character from[&!@#%^$] and 1 digit") String password,
+			@Email(message = "Please enter a valid email...") String email, List<Address> address) {
+		
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.mobileNumber = mobileNumber;
+		this.password = password;
+		this.email = email;
+		this.address = address;
+	}
+
 	
 }
