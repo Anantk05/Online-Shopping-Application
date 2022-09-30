@@ -1,15 +1,11 @@
 package com.app.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -41,15 +37,15 @@ public class Customer {
 	private String mobileNumber;
 	
 	@Pattern(regexp = "^((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[&!@#%$^]){8,16}$", message = "Password must contain atleast 1 uppercase, 1 lowercase, 1 special character from[&!@#%^$] and 1 digit")
-	@Transient
+	@Size(min = 8, max = 16, message = "Password must contain min 8 and max 16 digits!")
 	private String password;
 	
 	@Email(message = "Please enter a valid email...")
 	private String email;
 	
-	@OneToMany
+	@OneToOne
 	@JoinColumn(name = "customer_id", referencedColumnName = "customerId")
-	private List<Address> address = new ArrayList<>();
+	private Address address;
 
 	
 	
@@ -58,8 +54,7 @@ public class Customer {
 			@Size(min = 1, max = 15, message = "Last Name should be min 1 and max 15 Characters!") String lastName,
 			@Min(value = 10, message = "Mobile Number should contain 10 digit only!") @Max(value = 10, message = "Mobile Number should contain 10 digit only!") String mobileNumber,
 			@Pattern(regexp = "^((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[&!@#%$^]){8,16}$", message = "Password must contain atleast 1 uppercase, 1 lowercase, 1 special character from[&!@#%^$] and 1 digit") String password,
-			@Email(message = "Please enter a valid email...") String email, List<Address> address) {
-		
+			@Email(message = "Please enter a valid email...") String email, Address address) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -68,6 +63,10 @@ public class Customer {
 		this.email = email;
 		this.address = address;
 	}
+
+	
+	
+	
 
 	
 }
