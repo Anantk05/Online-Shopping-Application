@@ -17,7 +17,8 @@ import com.app.model.Order;
 import com.app.service.OrderService;
 
 public class OrderController {
-    @Autowired
+    
+	@Autowired
     private  OrderService orderService;
     
     @PostMapping("/addorder")
