@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public Product updateProduct(Product product) throws ProductException {
-		Optional<Product> opt =   pdao.findById(Product.getProductId());
+		Optional<Product> opt =   pdao.findById(product.getProductId());
 		if(opt.isPresent()) {
 			return pdao.save(product);
 		}

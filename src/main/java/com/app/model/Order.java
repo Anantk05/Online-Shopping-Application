@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +30,7 @@ public class Order {
 	private String orderStatus;
 	
 	@NotNull(message = "Login first...")
+	@Embedded
 	private Customer customer;
 	
 	private List<Product> productList = new ArrayList<>();

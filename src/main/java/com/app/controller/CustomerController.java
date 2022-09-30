@@ -33,7 +33,7 @@ public class CustomerController {
 	}
 	
 	@PutMapping("/updatecustomer/{key}")
-	public ResponseEntity<Customer> updateCustomerHandler(@PathVariable("key") String key,@RequestBody Customer customer) throws LoginException, CustomerException{
+	public ResponseEntity<Customer> updateCustomerHandler(@PathVariable("key") String key,@RequestBody Customer customer) throws LoginException, CustomerException, com.app.login.LoginException{
 		
 		Customer updatedCustomer = customerService.updateCustomer(customer, key);
 		
@@ -42,7 +42,7 @@ public class CustomerController {
 	}
 	
 	@DeleteMapping("/deletecustomer/{key}")
-	public ResponseEntity<Customer> removeCustomerHandler(@PathVariable("key") String key,@RequestBody Customer customer) throws CustomerException{
+	public ResponseEntity<Customer> removeCustomerHandler(@PathVariable("key") String key,@RequestBody Customer customer) throws CustomerException, LoginException, com.app.login.LoginException{
 		
 		Customer deletedCustomer = customerService.removeCustomer(customer, key);
 		

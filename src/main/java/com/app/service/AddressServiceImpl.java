@@ -22,7 +22,7 @@ public class AddressServiceImpl implements AddressService{
 
 	@Override
 	public Address updateAddress(Address add) throws AddressException {
-	       Optional<Address> opt =	adao.findById(Customer.getAddressId());
+	       Optional<Address> opt =	adao.findById(add.getAddressId());
 	       if(opt.isPresent()) {
 	    	   return adao.save(add);
 	       }
@@ -33,7 +33,7 @@ public class AddressServiceImpl implements AddressService{
 
 	@Override
 	public Address removeAddress(Address add) throws AddressException {
-	      Address existingAdd  = 	adao.findById(Address.getAddressId()).orElseThrow(()->new AddressException("Address does not exist :"+add));
+	      Address existingAdd  = 	adao.findById(add.getAddressId()).orElseThrow(()->new AddressException("Address does not exist :"+add));
 	      return existingAdd;
 	}
 
