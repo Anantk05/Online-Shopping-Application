@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.app.exceptions.CustomerException;
 import com.app.exceptions.UserException;
 import com.app.login.CurrentUserSession;
+import com.app.login.LoginException;
 import com.app.model.Customer;
 import com.app.model.User;
 import com.app.repository.CurrentUserSessionDao;
@@ -63,9 +64,51 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public User signOut(String key) throws UserException {
+	public String signOut(String key) throws UserException, LoginException {
+		CurrentUserSession userSession = currentUserSessionService.getCurrentUserSession(key);
+		
+		if(userSession != null) {
+			
+			currentUserSessionDao.delete(userSession);
+
+			
+			return "Logged out...";
+		}
+		else {
+			throw new UserException("Having some problem to logout");
+		}
+	}
+
+	@Override
+	public User removeUser(User user, String key) throws UserException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public User validateUser(User user, String key) throws UserException {
+
+		Optional<CurrentUserSession> opt = currentUserSessionDao.findByUuid(key) ;
+		
+		if(opt.isEmpty()) {
+			throw new UserException("Invalid Key");
+		}
+		
+		CurrentUserSession currentUser = opt.get();
+		
+		Optional<Customer> currentCustomerOpt = customerDao.findById(currentUser.getCustomerId()) ;
+		
+		Customer currentCustomer = currentCustomerOpt.get();
+		
+		if(user.getUserId().equals(currentCustomer.getMobileNumber()) && user.getPassword().equals(currentCustomer.getPassword())) {
+			return user;
+		}
+		else {
+			throw new UserException("Invalid Mobile Number or Password");
+		}
+		
+		
+		
 	}
 
 }
