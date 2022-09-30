@@ -2,7 +2,9 @@ package com.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class AddressService {
+import com.app.service.AddressService;
+
+public class AddressController {
 
     @Autowired
     private AddressService addressService;
