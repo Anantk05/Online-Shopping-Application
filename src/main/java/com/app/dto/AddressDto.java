@@ -1,28 +1,12 @@
-package com.app.model;
+package com.app.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Address {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer addressId;
-	
+public class AddressDto {
+		
 	@Size(min = 3, max = 10, message = "Street no. should min of 3 and max of 10 Characters")
 	private String streetNo;
 	
@@ -47,8 +31,7 @@ public class Address {
 	private Integer pincode;
 
 	
-	
-	public Address(
+	public AddressDto(
 			@Size(min = 3, max = 10, message = "Street no. should min of 3 and max of 10 Characters") String streetNo,
 			String buildingName,
 			@NotNull(message = "City cannot be null.") @NotBlank(message = "City cannot be blank.") @NotEmpty(message = "City cannot be empty.") String city,
@@ -63,9 +46,6 @@ public class Address {
 		this.country = country;
 		this.pincode = pincode;
 	}
-
-	
-	
 	
 	
 	

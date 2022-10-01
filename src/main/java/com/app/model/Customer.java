@@ -49,7 +49,6 @@ public class Customer {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(name = "c_address", joinColumns = @JoinColumn(name="customer_id", referencedColumnName = "customerId"))
-	@JsonIgnore
 	private Address address;
 
 	public Customer(

@@ -8,16 +8,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.app.exceptions.OrderException;
-import com.app.model.Address;
-import com.app.model.Order;
+import com.app.model.Orders;
 @Repository
-public interface OrderDao extends JpaRepository<Order, Integer>{
+public interface OrderDao extends JpaRepository<Orders, Integer>{
 	
-	@Query("select o from Order o where o.orderDate= ?1")
-	public List<Order> viewAllOrders(LocalDate date) throws OrderException ;
 	
-	@Query("select d from Order d where d.address= ?1")
-	public List<Order> viewAllorderByAddress(Address address) throws OrderException;
+	public List<Orders> findByOrderDate(LocalDate date) throws OrderException ;
+	
+	@Query("select o from Orders o where o.orderAddress.city= ?1")
+	public List<Orders> getOrderByCity(String city) throws OrderException;
+	
+	@Query("select o from Orders o where o.customer.mobileNumber=?1")
+	public List<Orders> getOrdersByUserId(String userID);
 	
 
 }
