@@ -9,6 +9,7 @@ import com.app.model.Customer;
 
 public interface CustomerService {
 
+	
 	public Customer addCustomer(Customer cust) throws CustomerException ;
 	
 	public Customer updateCustomer(Customer cust, String key) throws CustomerException, LoginException, com.app.login.LoginException  ;
