@@ -1,16 +1,20 @@
 package com.app.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,8 +48,9 @@ public class Customer {
 	@Email(message = "Please enter a valid email...")
 	private String email;
 	
-	@OneToOne
-	@JoinColumn(name = "customer_id", referencedColumnName = "customerId")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinTable(name = "c_address", joinColumns = @JoinColumn(name="customer_id", referencedColumnName = "customerId"))
+	@JsonIgnore
 	private Address address;
 
 	
