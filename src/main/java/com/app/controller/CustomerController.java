@@ -3,6 +3,7 @@ package com.app.controller;
 import java.util.List;
 
 import javax.security.auth.login.LoginException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class CustomerController {
 	private CustomerService customerService;
 	
 	@PostMapping("/customers")
-	public ResponseEntity<Customer> addCustomerHandler(@RequestBody Customer customer) throws CustomerException{
+	public ResponseEntity<Customer> addCustomerHandler(@Valid @RequestBody Customer customer) throws CustomerException{
 		
 		Customer addedCustomer = customerService.addCustomer(customer);
 		
@@ -34,41 +35,41 @@ public class CustomerController {
 		
 	}
 	
-//	@PutMapping("/updatecustomer/{key}")
-//	public ResponseEntity<Customer> updateCustomerHandler(@PathVariable("key") String key,@RequestBody Customer customer) throws LoginException, CustomerException, com.app.login.LoginException{
-//		
-//		Customer updatedCustomer = customerService.updateCustomer(customer, key);
-//		
-//		return new ResponseEntity<Customer>(updatedCustomer, HttpStatus.CREATED);
-//		
-//	}
-//	
-//	@DeleteMapping("/deletecustomer/{key}")
-//	public ResponseEntity<Customer> removeCustomerHandler(@PathVariable("key") String key,@RequestBody Customer customer) throws CustomerException, LoginException, com.app.login.LoginException{
-//		
-//		Customer deletedCustomer = customerService.removeCustomer(customer, key);
-//		
-//		return new ResponseEntity<Customer>(deletedCustomer, HttpStatus.OK);
-//		
-//	}
-//	
-//	@GetMapping("/getcustomer")
-//	public ResponseEntity<Customer> getCustomerHandler(@RequestBody Customer customer) throws CustomerException{
-//		
-//		Customer existingCustomer = customerService.viewCustomer(customer);
-//		
-//		return new ResponseEntity<Customer>(existingCustomer, HttpStatus.OK);
-//		
-//	}
-//	
-//	@GetMapping("/getallcustomers/{state}")
-//	public ResponseEntity<List<Customer>> getAllCustomersByLocation(@PathVariable("state") String state) throws CustomerException{
-//		
-//		List<Customer> customersByLocation = customerService.viewAllCustomer(state);
-//		
-//		return new ResponseEntity<List<Customer>>(customersByLocation, HttpStatus.OK);
-//		
-//	}
+	@PutMapping("/customers/{key}")
+	public ResponseEntity<Customer> updateCustomerHandler(@PathVariable("key") String key,@RequestBody Customer customer) throws LoginException, CustomerException, com.app.login.LoginException{
+		
+		Customer updatedCustomer = customerService.updateCustomer(customer, key);
+		
+		return new ResponseEntity<Customer>(updatedCustomer, HttpStatus.CREATED);
+		
+	}
+	
+	@DeleteMapping("/customers/{key}")
+	public ResponseEntity<Customer> removeCustomerHandler(@PathVariable("key") String key,@RequestBody Customer customer) throws CustomerException, LoginException, com.app.login.LoginException{
+		
+		Customer deletedCustomer = customerService.removeCustomer(customer, key);
+		
+		return new ResponseEntity<Customer>(deletedCustomer, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/customers/{customerid}")
+	public ResponseEntity<Customer> getCustomerHandler(@PathVariable("customerid") Integer customerId) throws CustomerException{
+		
+		Customer existingCustomer = customerService.viewCustomer(customerId);
+		
+		return new ResponseEntity<Customer>(existingCustomer, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/getallcustomers/{state}")
+	public ResponseEntity<List<Customer>> getAllCustomersByLocation(@PathVariable("state") String state) throws CustomerException{
+		
+		List<Customer> customersByLocation = customerService.viewAllCustomer(state);
+		
+		return new ResponseEntity<List<Customer>>(customersByLocation, HttpStatus.OK);
+		
+	}
 
 	
 }

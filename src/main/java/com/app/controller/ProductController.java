@@ -2,6 +2,8 @@ package com.app.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,17 +13,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.app.exceptions.ProductException;
 import com.app.model.Product;
 import com.app.service.ProductService;
 
+@RestController
 public class ProductController {
 
     @Autowired
     private ProductService productService;
     
-    @GetMapping("/getallproducts")
+    @PostMapping("/products")
+    public ResponseEntity<Product> addProductHandler(@Valid @RequestBody Product product ) throws ProductException{
+    	
+    	Product addedProduct = productService.addProduct(product);
+    	
+    	return new ResponseEntity<Product>(addedProduct, HttpStatus.CREATED);
+    	
+    }
+    
+    @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProductsHandler() throws ProductException{
     	
     	List<Product> allProducts = productService.viewAllProducts();
@@ -30,16 +43,7 @@ public class ProductController {
     	
     }
     
-    @PostMapping("/addproducts")
-    public ResponseEntity<Product> addProductHandler(@RequestBody Product product ) throws ProductException{
-    	
-    	Product addedProduct = productService.addProduct(product);
-    	
-    	return new ResponseEntity<Product>(addedProduct, HttpStatus.CREATED);
-    	
-    }
-    
-    @PutMapping("/updateproduct")
+    @PutMapping("/products")
     public ResponseEntity<Product> updateProductHandler(@RequestBody Product product) throws ProductException{
     	
     	Product updatedProduct = productService.updateProduct(product);
@@ -48,7 +52,7 @@ public class ProductController {
     	
     }
     
-    @GetMapping("/getproduct/{productId}")
+    @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProductHandler(@PathVariable("productId") Integer productId) throws ProductException{
     	
     	Product exixtingProduct = productService.viewProduct(productId);
@@ -57,7 +61,7 @@ public class ProductController {
     	
     }
     
-    @GetMapping("/getproductbycname/{categoryName}")
+    @GetMapping("/products/category/{categoryName}")
     public ResponseEntity<List<Product>> getProductByCategoryHandler(@PathVariable("categoryName") String categoryName) throws ProductException{
     	
     	List<Product> categorywiseProducts = productService.viewProductByCategory(categoryName);
@@ -67,7 +71,7 @@ public class ProductController {
     }
     
     
-    @DeleteMapping("/deleteproduct/{productId}")
+    @DeleteMapping("/products/{productId}")
     public ResponseEntity<Product> deleteProductHandler(@PathVariable("productId") Integer productId) throws ProductException{
     	
     	Product deletedProduct = productService.removeProduct(productId);

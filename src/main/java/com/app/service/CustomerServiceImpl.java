@@ -101,15 +101,13 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public Customer viewCustomer(Customer cust) throws CustomerException {
+	public Customer viewCustomer(Integer customerId) throws CustomerException {
 		
-		Optional<Customer> opt = customerDao.findById(cust.getCustomerId());
+		Optional<Customer> cust = customerDao.findById(customerId);
 		
-		if(opt.isEmpty()) {
-			throw new CustomerException("Customer is not presentt with this ID") ;
-		}
+		cust.orElseThrow(()-> new CustomerException("Customer doesn't found..."));
 		
-		return opt.get();
+		return cust.get();
 		
 	}
 

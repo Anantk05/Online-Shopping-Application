@@ -1,10 +1,13 @@
 package com.app.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
@@ -40,8 +43,6 @@ public class Product {
 	
 	@Embedded
 	private Category category;
-	
-	
 
 	public Product(
 			@Size(min = 3, max = 25, message = "Product Name should contain min 3 character.") String productName,
@@ -57,6 +58,10 @@ public class Product {
 		this.quantity = quantity;
 		this.category = category;
 	}
+	
+	
+
+	
 	
 	
 	

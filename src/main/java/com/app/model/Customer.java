@@ -37,11 +37,10 @@ public class Customer {
 	@Size(min = 1, max = 15, message = "Last Name should be min 1 and max 15 Characters!")
 	private String lastName;
 	
-	@Min(value = 10,message = "Mobile Number should contain 10 digit only!")
-	@Max(value = 10, message = "Mobile Number should contain 10 digit only!")
+	@Size(min = 10, max = 10, message = "Mobile Number should contain 10 digit only!")
 	private String mobileNumber;
 	
-	@Pattern(regexp = "^((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[&!@#%$^]){8,16}$", message = "Password must contain atleast 1 uppercase, 1 lowercase, 1 special character from[&!@#%^$] and 1 digit")
+	//@Pattern(regexp = "^((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[&!@#%$]){8,16}$", message = "Password must contain atleast 1 uppercase, 1 lowercase, 1 special character from[&!@#%^$] and 1 digit")
 	@Size(min = 8, max = 16, message = "Password must contain min 8 and max 16 digits!")
 	private String password;
 	
@@ -53,13 +52,11 @@ public class Customer {
 	@JsonIgnore
 	private Address address;
 
-	
-	
 	public Customer(
 			@Size(min = 3, max = 15, message = "First Name should be min 3 and max 15 Characters!") String firstName,
 			@Size(min = 1, max = 15, message = "Last Name should be min 1 and max 15 Characters!") String lastName,
 			@Min(value = 10, message = "Mobile Number should contain 10 digit only!") @Max(value = 10, message = "Mobile Number should contain 10 digit only!") String mobileNumber,
-			@Pattern(regexp = "^((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[&!@#%$^]){8,16}$", message = "Password must contain atleast 1 uppercase, 1 lowercase, 1 special character from[&!@#%^$] and 1 digit") String password,
+			@Pattern(regexp = "^((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[&!@#%$^]){8,16}$", message = "Password must contain atleast 1 uppercase, 1 lowercase, 1 special character from[&!@#%^$] and 1 digit") @Size(min = 8, max = 16, message = "Password must contain min 8 and max 16 digits!") String password,
 			@Email(message = "Please enter a valid email...") String email, Address address) {
 		super();
 		this.firstName = firstName;
@@ -69,6 +66,10 @@ public class Customer {
 		this.email = email;
 		this.address = address;
 	}
+
+	
+	
+	
 
 	
 

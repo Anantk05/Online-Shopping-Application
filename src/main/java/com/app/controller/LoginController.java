@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ public class LoginController {
 	private LoginService loginService;
 	
 	@PostMapping("/users/login")
-	public ResponseEntity<CurrentUserSession> addUser(@RequestBody User user) throws UserException, CustomerException {
+	public ResponseEntity<CurrentUserSession> addUser(@Valid @RequestBody User user) throws UserException, CustomerException {
 		
 		CurrentUserSession currentSession = loginService.addUser(user) ;
 		

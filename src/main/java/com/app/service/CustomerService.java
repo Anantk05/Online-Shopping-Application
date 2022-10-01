@@ -15,7 +15,7 @@ public interface CustomerService {
 	
 	public Customer removeCustomer(Customer cust, String key) throws CustomerException, LoginException, com.app.login.LoginException ;
 	
-	public Customer viewCustomer(Customer cust)  throws CustomerException;
+	public Customer viewCustomer(Integer customerId)  throws CustomerException;
 	
 	public List<Customer> viewAllCustomer(String location) throws CustomerException ;
 	
