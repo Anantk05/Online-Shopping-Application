@@ -1,5 +1,6 @@
 package com.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,13 +58,14 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<Product> viewProductByCategory(String cname) throws ProductException {
-		List<Product> products=pdao.viewProductByCategory(cname);
-		if(products.size()>0) {
-			return products;
-		}
-		else {
-			throw new ProductException("Product does not exist with Category Name :"+cname);
-		}
+//		List<Product> products=pdao.viewProductByCategory(cname);
+//		if(products.size()>0) {
+//			return products;
+//		}
+//		else {
+//			throw new ProductException("Product does not exist with Category Name :"+cname);
+//		}
+		return new ArrayList<Product>();
 	}
 
 	@Override

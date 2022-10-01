@@ -31,6 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Override
 	public Customer addCustomer(Customer cust) throws CustomerException {
+		System.out.println("================================================");
 		Optional<Customer> opt = customerDao.findByMobileNumber(cust.getMobileNumber()) ;
 		
 		if(opt.isPresent()) {

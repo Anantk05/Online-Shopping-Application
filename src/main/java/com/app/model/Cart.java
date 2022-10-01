@@ -2,11 +2,18 @@ package com.app.model;
 
 import java.util.List;
 
-import javax.persistence.Embedded;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -23,19 +30,14 @@ public class Cart {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer cartId;
 	
-	@NotNull(message = "Login first...")
-	@Embedded
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name= "customer_id", referencedColumnName = "customerId")
 	private Customer customer;
 	
-	private List<Product> productList;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "carts_product", joinColumns = @JoinColumn(name="cart_id", referencedColumnName = "cartId"))
+	private List<Product> products;
 
-	
-	
-	public Cart(@NotNull(message = "Login first...") Customer customer, List<Product> productList) {
-		super();
-		this.customer = customer;
-		this.productList = productList;
-	}
 	
 	
 	

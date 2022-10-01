@@ -1,16 +1,19 @@
 package com.app.controller;
 
-import com.app.dto.cart.AddToCartDto;
-import com.app.dto.cart.CartDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.app.model.Cart;
 import com.app.model.User;
 import com.app.service.CartService;
-import io.swagger.annotations.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.ApiResponse;
 
 @RestController
 @RequestMapping("/com/app/dto/cart")
@@ -22,23 +25,21 @@ public class CartController {
 
 
 
-//    @PostMapping("/add")
-//    public ResponseEntity<ApiResponse> addToCart(@RequestBody AddToCartDto addToCartDto,
-//                                                 @RequestParam("token") String token) {
-//
-//        authenticationService.authenticate(token);
-//
-//
-//        // find the user
-//
-//        User user = authenticationService.getUser(token);
-//
-//
-//        cartService.addToCart(addToCartDto, user );
-//
-//        return new ResponseEntity<>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
-//    }
-//
+    @PostMapping("/add")
+    public ResponseEntity<Cart> addToCart(@RequestBody Cart cart,
+                                                 @RequestParam("token") String token){
+
+
+        // find the user
+
+   
+
+
+        Cart cartItem = cartService.addToCart(cart, token );
+
+        return new ResponseEntity<>(cartItem, HttpStatus.CREATED);
+    }
+
 //
 //
 //    @GetMapping("/")
