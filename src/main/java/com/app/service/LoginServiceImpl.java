@@ -47,7 +47,6 @@ public class LoginServiceImpl implements LoginService {
 		if(currentUserOptional.isPresent()) {
 			throw new UserException("User has already logged in with userId : " + user.getUserId());
 		}
-		
 		if(currentCustomer.getMobileNumber().equals(user.getUserId()) && currentCustomer.getPassword().equals(user.getPassword())) {
 			
 			String key = RandomString.make(6) ;

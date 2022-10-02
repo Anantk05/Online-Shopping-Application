@@ -48,11 +48,13 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		if(customerDetails == null) {
 			throw new LoginException("No user Found | Login first");
+		}else if( cust.getMobileNumber().toCharArray().length != 10 ){
+			
+			throw new CustomerException("Mobile Number can only be of 10 digit");
 		}
 		
 		if(cust.getCustomerId() == customerDetails.getCustomerId()) {
-			customerDao.save(cust) ;
-			return cust;
+			return customerDao.save(cust) ;
 		}
 		else {
 			throw new CustomerException("Can't change UserID!") ;

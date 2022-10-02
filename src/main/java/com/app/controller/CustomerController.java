@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.app.exceptions.CustomerException;
 import com.app.model.Customer;
 import com.app.service.CustomerService;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class CustomerController {
 	
@@ -28,7 +30,7 @@ public class CustomerController {
 	
 	@PostMapping("/customers")
 	public ResponseEntity<Customer> addCustomerHandler(@Valid @RequestBody Customer customer) throws CustomerException{
-		
+
 		Customer addedCustomer = customerService.addCustomer(customer);
 		
 		 return new ResponseEntity<Customer>(addedCustomer, HttpStatus.CREATED);
@@ -62,10 +64,10 @@ public class CustomerController {
 		
 	}
 	
-	@GetMapping("/getallcustomers/{state}")
-	public ResponseEntity<List<Customer>> getAllCustomersByLocation(@PathVariable("state") String state) throws CustomerException{
+	@GetMapping("/getallcustomers/{city}")
+	public ResponseEntity<List<Customer>> getAllCustomersByLocation(@PathVariable("city") String city) throws CustomerException{
 		
-		List<Customer> customersByLocation = customerService.viewAllCustomer(state);
+		List<Customer> customersByLocation = customerService.viewAllCustomer(city);
 		
 		return new ResponseEntity<List<Customer>>(customersByLocation, HttpStatus.OK);
 		

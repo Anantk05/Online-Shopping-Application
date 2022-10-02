@@ -7,16 +7,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.exceptions.AddressException;
+import com.app.login.LoginException;
 import com.app.model.Address;
+import com.app.model.Customer;
 import com.app.repository.AddressDao;
+import com.app.repository.CustomerDao;
 @Service
 public class AddressServiceImpl implements AddressService{
 	@Autowired
 	private AddressDao adao;
+	
+	@Autowired
+	private CustomerDao customerDao;
 
+	@Autowired
+	private CurrentUserSessionService currentUserSessionService;
+	
 	@Override
-	public Address addAddress(Address add) throws AddressException {
+	public Address addAddress(Address add, String key) throws AddressException, LoginException {
 	        Address	address= adao.save(add);
+	        
+	        Customer currentCustomer = currentUserSessionService.getCustomerDetails(key);
+	        
+	        currentCustomer.setAddress(address);
+	        
+	        customerDao.save(currentCustomer);
+	        
 	        return address;
 	}
 
@@ -32,9 +48,12 @@ public class AddressServiceImpl implements AddressService{
 	}
 
 	@Override
-	public Address removeAddress(Address add) throws AddressException {
-	      Address existingAdd  = 	adao.findById(add.getAddressId()).orElseThrow(()->new AddressException("Address does not exist :"+add));
+	public Address removeAddress(Integer addrId) throws AddressException {
+	      
+		Address existingAdd  = 	adao.findById(addrId).orElseThrow(()->new AddressException("Address does not exist :"+addrId));
 	      return existingAdd;
+	      
+	      
 	}
 
 	@Override
