@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    
+    <div id="navContainer">
+        <div>
+            <h1>Customer Module</h1>
+        </div>
+        <div>
+            <button id="register">Register</button>
+            <button id="login">Login</button>
+            <button id="checkDetails">Check Details</button>
+            <button id="updateDetails">Update Details</button>
+            <button id="deleteAccount">Delete Account</button>
+            <button id="logout">Logout</button>
+        </div>
+
+    </div>
+
+    <div id="registerForm">
+        <form action="sumbit" id="form1">
+            <h3>Register Here</h3>
+            <input type="text" name="firstName" placeholder="Enter First Name" id="firstName">
+            <input type="text" name="lastName" placeholder="Enter Last Name" is="lastName">
+            <input type="text" name="mobileNumber" placeholder="Enter Mobile Number" id="mobileNumber">
+            <input type="text" name="password" placeholder="Enter Password" id="password">
+            <input type="email" name="email" placeholder="Enter Email" id="email">
+            <input type="submit" class="submitButton">    
+        </form>
+    </div>
+    <div id="loginForm">
+        <form action="sumbit" id="form2">
+            <h3>Login Here</h3>
+            <input type="text" name="userId" placeholder="Enter Mobile Number " id="mobileNumber">
+            <input type="text" name="password" placeholder="Enter Password" id="password">
+            <input type="submit" class="submitButton">    
+        </form>
+    </div>
+    <div id="viewCustomer">
+        <form action="sumbit" id="viewForm">
+            <h3>View Customer Here</h3>
+            <input type="text" name="customerId" placeholder="Enter Customer Id " id="customerid" required>
+            
+            <input type="submit" class="submitButton">    
+        </form>
+    </div>
+
+    <div id="updateForm">
+        <form action="sumbit" id="form3">
+            <h3>Update Here</h3>
+            <input type="number" name="customerId" placeholder="Enter User Id" id="userId" required>
+            <input type="text" name="firstName" placeholder="Enter First Name" id="firstName" required>
+            <input type="text" name="lastName" placeholder="Enter Last Name" is="lastName" required>
+            <input type="text" name="mobileNumber" placeholder="Enter Mobile Number" id="mobileNumber" required>
+            <input type="text" name="password" placeholder="Enter Password" id="password" required>
+            <input type="email" name="email" placeholder="Enter Email" id="email" required>
+            <input type="submit" class="submitButton">  
+        </form>
+    </div>
+</body>
+</html>
+
+<script>
+
+const form1 = document.getElementById('form1');
+
+form1.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const data = {
+        firstName:this.firstName.value,
+        lastName:this.lastName.value,
+        mobileNumber:this.mobileNumber.value,
+        password:this.password.value,
+        email:this.email.value,
+        address:null
+    }
+
+    fetch('http://localhost:8888/customers', {
+        method:'POST',
+        body:JSON.stringify(data),
+        headers:{'Content-Type':'application/json'},
+        
+    }).then(function(response){
+        return response.json();
+    }).then(function(text){
+
+        if( text.httpStatus == "BAD_REQUEST" ){
+            alert(text.message);
+        }
+
+        else{
+            alert("Registered Successfully")
+        }
+
+        
+    }).catch(function(error){
+        alert(error)
+    })
+});
+
+const form2 = document.getElementById('form2');
+
+form2.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const data = {
+        
+        userId:this.mobileNumber.value,
+        password:this.password.value,
+        role:"customer"
+    }
+
+    fetch('http://localhost:8888/users/login', {
+        method:'POST',
+        body:JSON.stringify(data),
+        headers:{'Content-Type':'application/json'}
+    }).then(function(response){
+        return response.json();
+    }).then(function(text){
+
+        
+        if( text.httpStatus == "BAD_REQUEST" ){
+            alert(text.message)
+        }
+        else if(text.httpStatus == "INTERNAL_SERVER_ERROR"){
+            alert("Please Enter Valiid Details")
+        }
+        else{
+            alert("Logged in  Successfully")
+
+            localStorage.setItem("key",text.uuid);
+
+            console.log(text);
+
+            
+            
+        }
+
+        
+    }).catch(function(error){
+        alert(error)
+    })
+});
+
+const form3 = document.getElementById('form3');
+
+form3.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const data = {
+        customerId:this.userId.value,
+        firstName:this.firstName.value,
+        lastName:this.lastName.value,
+        mobileNumber:this.mobileNumber.value,
+        password:this.password.value,
+        email:this.email.value,
+        address:null
+    }
+
+    let mykey = localStorage.getItem("key");
+
+    
+
+    fetch(`http://localhost:8888/customers/${mykey}`, {
+        method:'PUT',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(data),
+    }).then(function(response){
+        return response.json();
+
+    }).then(function(text){
+        console.log(text)
+        if( text.httpStatus == "INTERNAL_SERVER_ERROR"){
+            alert(text.message)
+            //alert("all fields should be valid");
+            
+        }
+        else if( text.httpStatus == "BAD_REQUEST" ){
+            alert(text.message)
+        }
+        else{
+            console.log(text)
+            alert("Updated Successfully")
+        }
+
+        
+    }).catch(function(error){
+        alert(error)
+    })
+});
+
+document.getElementById('viewForm').addEventListener("submit",function(e){
+e.preventDefault();
+//let mykey = localStorage.getItem("key");
+
+const cId = document.getElementById("customerid").value; 
+
+fetch(`http://localhost:8888/customers/${cId}`)
+    .then(function(response){
+        return response.json();
+    }).then( (text) => {
+        if(text.httpStatus == "BAD_REQUEST"){
+            alert(text.message)
+        }
+        else
+            console.log(text);
+    })
+    .catch(function(error){
+        alert(error)
+    })
+})
+
+
+document.getElementById('logout').addEventListener("click",function(){
+
+    let mykey = localStorage.getItem("key");
+
+    fetch(`http://localhost:8888/users/logout?key=${mykey}`, {
+        method:'DELETE',
+        headers:{
+            'Content-Type':'application/json',
+        }
+    }).then(function(response){
+        if( response.status >= 200 && response.status < 300 ){
+            alert("Logged out successfully!")
+        }
+    })
+    .catch(function(error){
+        alert(error)
+    })
+
+})
+
+
+</script>
